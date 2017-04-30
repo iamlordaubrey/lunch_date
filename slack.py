@@ -35,8 +35,8 @@ def oauth_dance():
         return redirect(url_for('thanks'))
 
     print('in except')
-    print(lunchBot.oauth)
-    print(dir(lunchBot))
+    # print(lunchBot.oauth)
+    # print(dir(lunchBot))
     client_id = lunchBot.oauth["client_id"]
     print('client_id: ', client_id)
     scope = lunchBot.oauth["scope"]
@@ -44,7 +44,7 @@ def oauth_dance():
     return render_template("install.html", client_id=client_id, scope=scope)
 
 
-@app.route("/thanks", methods=["GET"])
+@app.route("/thanks", methods=["GET", "POST"])
 def thanks():
     print('current jobs: ', jobs)
     # lunchBot.runner()
@@ -69,7 +69,7 @@ def invoke_watcher():
 
 def start_server():
     print('starting server')
-    # app.run()
+    app.run()
 
 
 if __name__ == "__main__":
@@ -78,4 +78,4 @@ if __name__ == "__main__":
 
     w.start()
     s.start()
-    app.run()
+    # app.run()
