@@ -16,7 +16,6 @@ class Bot(object):
             "client_secret": os.environ.get("CLIENT_SECRET"),
             "scope": "bot"
         }
-        self.verification = os.environ.get("VERIFICATION_TOKEN")
         self.client = SlackClient("")
 
     def auth(self, code):
@@ -32,12 +31,14 @@ class Bot(object):
         }
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-        # returns a dictionary of channels, users and the api_call status
-        channel_list = self.client.api_call("channels.list", exclude_archived=1)
-        users_list = self.client.api_call("users.list")
-        print('channel_list: ', channel_list)
-        print('users_list: ', users_list)
+    def update_lists(self):
+        # To-Do: Try/catch block or if statement
+        # to catch case when there's no user/users_dict["members"]
+        # Channel list could change. so could users list
+        # Aside: Can one get the channel(s) in which the bot is in?
+        users_dict = self.SC.api_call("users.list")
+        # print('users_dict: ', users_dict)
+        self.users_list = users_dict["members"]
 
-        # get exact list of channels and users
-        self.actual_channel_list = channel_list["channels"]
-        self.actual_users = users_list["members"]
+        channels_dict = self.SC.api_call("channels.list", exclude_archived=1)
+        self.channels_list = channels_dict["channels"]
