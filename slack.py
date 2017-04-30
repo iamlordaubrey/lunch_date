@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import lunchbot
 
 lunchBot = lunchbot.Bot()
+# slack = lunchBot.client
 
 app = Flask(__name__)
 
@@ -51,21 +52,8 @@ def oauth_dance():
 
 @app.route("/thanks", methods=["GET"])
 def thanks():
+    # lunchBot.update_lists()
     return render_template("thanks.html")
-
-
-# @app.route("/thanks")
-# def thanks():
-#     """
-#     Exchange temp auth code for OAuth token
-#     Render a thank you page
-#     """
-#     # Get temp auth code from request params
-#     code_arg = request.args.get('code')
-
-#     # The bot's auth method that exchanges code for OAuth token
-#     lunchBot.auth(code_arg)
-#     return redirect(url_for('thanks_page'))
 
 
 if __name__ == "__main__":
