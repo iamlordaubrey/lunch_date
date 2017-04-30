@@ -1,1 +1,1 @@
-web: gunicorn app:slack --log-file=-
+web: gunicorn slack:app --log-file=-
