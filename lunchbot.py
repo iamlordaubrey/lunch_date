@@ -77,6 +77,29 @@ class Bot(object):
             if channel["name"] == channel_name:
                 return channel["members"]
 
+    def get_humans_of_channel(self, channel_name, users_list, channels_list):
+        """
+        Get's Humans of The Channel :)
+        :param channel_name: name of the particular channel in question (channel the slackbot is in)
+        :params users_list: list of all the users in the organization
+        :param channels_list: list of all the channels
+        :return: a dictionary of channel members id's against their names
+        """
+        humans_of_channel = {}
+        all_humans = self.get_human_users(users_list)
+        channel_members_ids = self.get_channel_members(channel_name, channels_list)
+
+        try:
+            # Consider using sets (faster look-up)
+            for member_id in channel_members_ids:
+                # Check: is channel member human?
+                if member_id in all_humans:
+                    humans_of_channel[member_id] = all_humans[member_id]
+        except TypeError:
+            print('Likely no human in channel')
+
+        return humans_of_channel
+
 
 if __name__ == '__main__':
     print('Bot called directly')
