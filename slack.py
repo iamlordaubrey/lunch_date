@@ -27,7 +27,6 @@ def oauth_dance():
         return redirect(url_for('thanks'))
 
     print('in except')
-    # import pdb; pdb.set_trace()
     print(lunchBot.oauth)
     print(dir(lunchBot))
     client_id = lunchBot.oauth["client_id"]
@@ -35,24 +34,11 @@ def oauth_dance():
     scope = lunchBot.oauth["scope"]
     print('scope: ', scope)
     return render_template("install.html", client_id=client_id, scope=scope)
-    # try:
-    #     print('in try')
-    #     code = request.args.get('code')
-    #     print('code', code)
-    #     return redirect(url_for('thanks'))
-    # except NameError:
-    #     print('in except')
-    #     lunchBot = lunchbot.Bot()
-    #     client_id = lunchBot.oauth["client_id"]
-    #     print('client_id: ', client_id)
-    #     scope = lunchBot.oauth["scope"]
-    #     print('scope: ', scope)
-    #     return render_template("install.html", client_id=client_id, scope=scope)
 
 
 @app.route("/thanks", methods=["GET"])
 def thanks():
-    # lunchBot.update_lists()
+    lunchBot.runner()
     return render_template("thanks.html")
 
 
