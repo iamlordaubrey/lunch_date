@@ -47,7 +47,7 @@ def oauth_dance():
 @app.route("/thanks", methods=["GET"])
 def thanks():
     print('current jobs: ', jobs)
-    lunchBot.runner()
+    # lunchBot.runner()
     return render_template("thanks.html")
 
 
