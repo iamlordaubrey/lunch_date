@@ -1,4 +1,6 @@
 import os
+import random
+from itertools import zip_longest
 from dotenv import load_dotenv, find_dotenv
 from slackclient import SlackClient
 
@@ -99,6 +101,19 @@ class Bot(object):
             print('Likely no human in channel')
 
         return humans_of_channel
+
+    def grouper(self, iterable, n, fillvalue=None):
+        """
+        Do some groupings
+        :param iterable: list of human id's
+        :param n: number of members in a grouping
+        :param fillvalue: value to fill a grouping if members fall short
+        :return: an iterable object
+        """
+        random.shuffle(iterable)
+        args = [iter(iterable)] * n
+
+        return zip_longest(*args, fillvalue=fillvalue)
 
 
 if __name__ == '__main__':
