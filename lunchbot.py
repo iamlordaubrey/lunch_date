@@ -11,6 +11,9 @@ load_dotenv(find_dotenv())
 authed_teams = {}
 test_client = ''
 
+# This should not be hardcoded
+bot_channel = "luncheon"
+
 
 class Bot(object):
     def __init__(self):
@@ -144,6 +147,20 @@ class Bot(object):
         # How often should this job run?
         # To-Do: Get runtime from the organization
         return 3
+
+    def runner(self):
+        print('running...')
+
+        # Get a better name for this
+        self.update_lists()
+
+        humans_of_channel = self.get_humans_of_channel(
+            bot_channel, self.users_list, self.channels_list
+        )
+        humans_ids = [key for key in humans_of_channel]
+
+        for a, b, c in self.grouper(humans_ids, 3):
+            self.notifier(humans_of_channel, a, b, c)
 
 
 if __name__ == '__main__':
