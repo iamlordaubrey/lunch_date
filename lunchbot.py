@@ -115,6 +115,31 @@ class Bot(object):
 
         return zip_longest(*args, fillvalue=fillvalue)
 
+    def notifier(self, humans, *args):
+        """
+        Notify each grouping of their members
+        :param humans: dictionary of id's of humans in channel against names
+        :param *args: number of members in a grouping
+        :return None. Just notify all members
+        """
+        names = ["@" + humans[a] for a in args if a]
+        people = ", ".join(names)
+
+        response = "Hola, the Loom of Fate has spoken! Here's your grouping for today: \n"
+        response += people + "\n"
+        response += "Please reach out to them and figure out a time y'all would go for lunch. \n"
+        response += "Happy lunching!"
+
+        for arg in args:
+            # print('response: ', response)
+            self.client.api_call(
+                "chat.postMessage",
+                channel=arg,
+                text=response,
+                as_user=True,
+                link_names=1
+            )
+
 
 if __name__ == '__main__':
     print('Bot called directly')
