@@ -140,6 +140,11 @@ class Bot(object):
                 link_names=1
             )
 
+    def runtime(self):
+        # How often should this job run?
+        # To-Do: Get runtime from the organization
+        return 3
+
 
 if __name__ == '__main__':
     print('Bot called directly')
