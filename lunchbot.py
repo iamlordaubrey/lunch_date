@@ -37,8 +37,8 @@ class Bot(object):
         }
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
         # delete me pls
-        global test_client
-        test_client = SlackClient(authed_teams[team_id]["bot_token"])
+        # global test_client
+        # test_client = SlackClient(authed_teams[team_id]["bot_token"])
         # print('usable test_client: ', test_client)
         # delete me pls
         print('self.client: ', self.client)
@@ -146,7 +146,7 @@ class Bot(object):
     def runtime(self):
         # How often should this job run?
         # To-Do: Get runtime from the organization
-        return 3
+        return '01:09'
 
     def runner(self):
         print('running...')
