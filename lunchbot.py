@@ -1,5 +1,8 @@
 import os
+from dotenv import load_dotenv, find_dotenv
 from slackclient import SlackClient
+
+load_dotenv(find_dotenv())
 
 # TO-DO
 # http://api.slack.com/docs/oauth-token-safety
@@ -7,7 +10,7 @@ authed_teams = {}
 
 
 class Bot(object):
-    def __init(self):
+    def __init__(self):
         self.oauth = {
             "client_id": os.environ.get("CLIENT_ID"),
             "client_secret": os.environ.get("CLIENT_SECRET"),
