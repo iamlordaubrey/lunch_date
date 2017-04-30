@@ -46,12 +46,15 @@ def oauth_dance():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
+    global jobs
     print('current jobs: ', jobs)
     # lunchBot.runner()
     return render_template("thanks.html")
 
 
 def invoke_watcher():
+    global jobs
+    print('invoke watcher jobs: ', jobs)
     print('watcher invoked')
     while True:
         print('jobs inside while loop: ', jobs)
