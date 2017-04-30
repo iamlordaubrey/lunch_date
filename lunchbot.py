@@ -9,7 +9,8 @@ load_dotenv(find_dotenv())
 # TO-DO
 # http://api.slack.com/docs/oauth-token-safety
 authed_teams = {}
-test_client = ''
+# test_client = ''
+jobs = []
 
 # This should not be hardcoded
 bot_channel = "luncheon"
@@ -37,8 +38,8 @@ class Bot(object):
         }
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
         # delete me pls
-        global test_client
-        test_client = SlackClient(authed_teams[team_id]["bot_token"])
+        # global test_client
+        # test_client = SlackClient(authed_teams[team_id]["bot_token"])
         # print('usable test_client: ', test_client)
         # delete me pls
         print('self.client: ', self.client)
@@ -143,10 +144,14 @@ class Bot(object):
                 link_names=1
             )
 
+    def add_job(self, job):
+        jobs.append(job)
+        return jobs
+
     def runtime(self):
         # How often should this job run?
         # To-Do: Get runtime from the organization
-        return 3
+        return '16:12'
 
     def runner(self):
         print('running...')
