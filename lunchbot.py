@@ -50,8 +50,21 @@ class Bot(object):
         channels_dict = self.client.api_call("channels.list", exclude_archived=1)
         self.channels_list = channels_dict["channels"]
 
+    def get_human_users(self, users_list):
+        """
+        Get human users id's
+        :params users_list: list of all the users in the organization
+        :return: a dict of user's who are human. User id against user name
+        """
+        humans = {}
+
+        # Consider using sets for users_list (faster look-up)
+        for user in users_list:
+            if user["is_bot"] is False and user["name"] != "slackbot":
+                humans[user["id"]] = user["name"]
+
+        return humans
+
 
 if __name__ == '__main__':
     print('Bot called directly')
-    groupings = Bot()
-    groupings.update_lists()
