@@ -65,6 +65,18 @@ class Bot(object):
 
         return humans
 
+    def get_channel_members(self, channel_name, channels_list):
+        """
+        Get's all members of channel
+        :param channel_name: name of the particular channel in question (channel the slackbot is in)
+        :param channels_list: list of all the channels
+        :return: a list of channel members id's
+        """
+        # Consider using sets for channels_list (faster look-up)
+        for channel in channels_list:
+            if channel["name"] == channel_name:
+                return channel["members"]
+
 
 if __name__ == '__main__':
     print('Bot called directly')
