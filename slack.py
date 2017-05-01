@@ -33,7 +33,9 @@ def oauth_dance():
             # Team already registered
             print('Team already registered')
             return redirect(url_for('thanks'))
+        print('about to append to jobs: ', jobs)
         jobs.append(lunchBot)
+        print('just appended this to jobs: ', lunchBot)
         return redirect(url_for('thanks'))
 
     print('in except')
@@ -74,7 +76,7 @@ def invoke_watcher():
                 job.runner()
         print('jobs after for loop: ', jobs)
         # time.sleep(3600)
-        time.sleep(29)
+        time.sleep(20)
 
 
 def start_server():
