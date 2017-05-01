@@ -73,7 +73,7 @@ def invoke_watcher():
                 job.runner()
         print('jobs after for loop: ', jobs)
         # time.sleep(3600)
-        time.sleep(10)
+        time.sleep(60)
 
 
 def start_server():
