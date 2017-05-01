@@ -60,7 +60,7 @@ def thanks():
 
 
 def invoke_watcher():
-    global jobs
+    # global jobs
     print('invoke watcher jobs: ', jobs)
     print('watcher invoked invoke_function')
     # completed_jobs = {}
