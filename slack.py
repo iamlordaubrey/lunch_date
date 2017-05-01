@@ -20,6 +20,7 @@ def index():
 
 @app.route("/install")
 def oauth_dance():
+    global jobs
     print('in oauth')
     """
     Renders installation page with "Add to Slack" button
@@ -47,7 +48,7 @@ def oauth_dance():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
-    global jobs
+    # global jobs
     print('current jobs: ', jobs)
     # lunchBot.runner()
     w = Thread(target=invoke_watcher)
