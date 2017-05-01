@@ -36,6 +36,7 @@ def oauth_dance():
         print('about to append to jobs: ', jobs)
         jobs.append(lunchBot)
         print('just appended this to jobs: ', lunchBot)
+        print('jobs: ', jobs)
         return redirect(url_for('thanks'))
 
     print('in except')
@@ -50,7 +51,7 @@ def oauth_dance():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
-    # global jobs
+    global jobs
     print('current jobs: ', jobs)
     # lunchBot.runner()
     w = Thread(target=invoke_watcher)
