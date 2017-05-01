@@ -37,8 +37,8 @@ class Bot(object):
         }
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
         # delete me pls
-        global test_client
-        test_client = SlackClient(authed_teams[team_id]["bot_token"])
+        # global test_client
+        # test_client = SlackClient(authed_teams[team_id]["bot_token"])
         # print('usable test_client: ', test_client)
         # delete me pls
         print('self.client: ', self.client)

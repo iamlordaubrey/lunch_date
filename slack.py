@@ -51,7 +51,6 @@ def oauth_dance():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
-    global jobs
     print('current jobs: ', jobs)
     # lunchBot.runner()
     w = Thread(target=invoke_watcher)
