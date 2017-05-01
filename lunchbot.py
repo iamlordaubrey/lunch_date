@@ -146,7 +146,7 @@ class Bot(object):
     def runtime(self):
         # How often should this job run?
         # To-Do: Get runtime from the organization
-        return '01:08'
+        return '01:14'
 
     def runner(self):
         print('running...')

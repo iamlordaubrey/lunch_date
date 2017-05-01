@@ -66,7 +66,7 @@ def invoke_watcher():
             print('job in watcher: ', job)
             gmt_plus_one = datetime.now() + timedelta(hours=1)
             # current_time = time.strftime("%H:%M")
-            current_time = "{%H:%M}".format(gmt_plus_one)
+            current_time = "{:%H:%M}".format(gmt_plus_one)
             # current_time = 3
             print(job.runtime(), current_time)
             if str(current_time) == job.runtime():
