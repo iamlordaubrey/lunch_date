@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from threading import Thread
 
+from datetime import datetime, timedelta
 import time
 import lunchbot
 
@@ -51,19 +52,21 @@ def thanks():
     # lunchBot.runner()
     w = Thread(target=invoke_watcher)
     w.start()
-    print('watcher invoked')
+    print('watcher invoked thanks route')
     return render_template("thanks.html")
 
 
 def invoke_watcher():
     global jobs
     print('invoke watcher jobs: ', jobs)
-    print('watcher invoked')
+    print('watcher invoked invoke_function')
     while True:
         print('jobs inside while loop: ', jobs)
         for job in jobs:
             print('job in watcher: ', job)
-            current_time = time.strftime("%H:%M")
+            gmt_plus_one = datetime.now() + timedelta(hours=1)
+            # current_time = time.strftime("%H:%M")
+            current_time = "{%H:%M}".format(gmt_plus_one)
             # current_time = 3
             print(job.runtime(), current_time)
             if str(current_time) == job.runtime():
