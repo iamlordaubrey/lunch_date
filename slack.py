@@ -64,9 +64,11 @@ def invoke_watcher():
     global jobs
     print('invoke watcher jobs: ', jobs)
     print('watcher invoked invoke_function')
+    # completed_jobs = {}
     while True:
         print('jobs inside while loop: ', jobs)
-        for job in jobs:
+        # if not completed_jobs:
+        for index, job in enumerate(jobs, start=1):
             print('job in watcher: ', job)
             gmt_plus_one = datetime.now() + timedelta(hours=1)
             # current_time = time.strftime("%H:%M")
@@ -75,9 +77,17 @@ def invoke_watcher():
             print(job.runtime(), current_time)
             if str(current_time) == job.runtime():
                 job.runner()
+            # completed_jobs[index] = jobs
+
         print('jobs after for loop: ', jobs)
         # time.sleep(3600)
         time.sleep(20)
+        print('finished first sleep')
+        time.sleep(20)
+        print('finished second sleep')
+        time.sleep(20)
+        print('finished third sleep')
+        # completed_jobs = {}
 
 
 def start_server():
