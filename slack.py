@@ -61,6 +61,7 @@ def thanks():
     # global jobs
     print('in thanks, current jobs: ', lunchbot.jobs)
     # lunchBot.runner()
+    global w
     w.start()
     # print('watcher invoked thanks route')
     return render_template("thanks.html")
