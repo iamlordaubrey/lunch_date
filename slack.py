@@ -55,6 +55,9 @@ def oauth_dance():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
+    coder = request.args.get('code')
+    # print(code)
+    print('code in thanks', coder)
     # global jobs
     print('in thanks, current jobs: ', lunchbot.jobs)
     # lunchBot.runner()
