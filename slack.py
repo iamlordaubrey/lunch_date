@@ -61,7 +61,7 @@ def thanks():
     # global jobs
     print('in thanks, current jobs: ', lunchbot.jobs)
     # lunchBot.runner()
-    global w
+    w = Thread(target=invoke_watcher)
     w.start()
     # print('watcher invoked thanks route')
     return render_template("thanks.html")
@@ -103,7 +103,7 @@ def start_server():
 
 
 if __name__ == "__main__":
-    w = Thread(target=invoke_watcher)
+    # w = Thread(target=invoke_watcher)
     s = Thread(target=start_server)
     # w.start()
     s.start()
