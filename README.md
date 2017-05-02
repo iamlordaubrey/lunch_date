@@ -25,6 +25,10 @@ At the moment:
 3. Authorize the app
 
 
+### To know
+The application is currently hosted on Heroku. I'm making use of [Uptime robot](https://uptimerobot.com/) for application monitoring.
+
+
 ### Support or Contact
 
 Having trouble with **Lunch date**? Send me an [email](mailto:lord.chiemy@gmail.com) and I’ll help you sort it out.
