@@ -55,14 +55,13 @@ def oauth_dance():
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
-    coder = request.args.get('code')
+    # coder = request.args.get('code')
     # print(code)
-    print('code in thanks', coder)
+    # print('code in thanks', coder)
     # global jobs
     print('in thanks, current jobs: ', lunchbot.jobs)
     # lunchBot.runner()
-    w = Thread(target=invoke_watcher)
-    w.start()
+
     # print('watcher invoked thanks route')
     return render_template("thanks.html")
 
@@ -105,4 +104,6 @@ def start_server():
 if __name__ == "__main__":
     s = Thread(target=start_server)
     s.start()
+    w = Thread(target=invoke_watcher)
+    w.start()
     # app.run()
