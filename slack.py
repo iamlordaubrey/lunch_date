@@ -20,7 +20,7 @@ def index():
 
 @app.route("/install")
 def oauth_dance():
-    # global jobs
+    global jobs
     print('in oauth')
     """
     Renders installation page with "Add to Slack" button
