@@ -9,7 +9,6 @@ load_dotenv(find_dotenv())
 # TO-DO
 # http://api.slack.com/docs/oauth-token-safety
 authed_teams = {}
-# test_client = ''
 jobs = []
 
 # This should not be hardcoded
@@ -37,13 +36,6 @@ class Bot(object):
             "bot_token": auth_response["bot"]["bot_access_token"]
         }
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
-        # delete me pls
-        # global test_client
-        # test_client = SlackClient(authed_teams[team_id]["bot_token"])
-        # print('usable test_client: ', test_client)
-        # delete me pls
-        print('self.client: ', self.client)
-        print('authed_teams: ', authed_teams)
 
     def update_lists(self):
         # To-Do: Try/catch block or if statement
@@ -124,7 +116,7 @@ class Bot(object):
         Notify each grouping of their members
         :param humans: dictionary of id's of humans in channel against names
         :param *args: number of members in a grouping
-        :return None. Just notify all members
+        :return: None. Just notify all members
         """
         names = ["@" + humans[a] for a in args if a]
         people = ", ".join(names)
@@ -135,7 +127,6 @@ class Bot(object):
         response += "Happy lunching!"
 
         for arg in args:
-            # print('response: ', response)
             self.client.api_call(
                 "chat.postMessage",
                 channel=arg,
@@ -145,18 +136,32 @@ class Bot(object):
             )
 
     def add_job(self, job):
+        """
+        Appends current object to jobs list
+        :param job: an instance of the class
+        :return: The list of jobs
+        """
+        # To-Do: Convert to class method
         jobs.append(job)
         return jobs
 
     def runtime(self):
-        # How often should this job run?
-        # To-Do: Get runtime from the organization
+        """
+        Get's the current instance runtime
+        :return The list of jobs
+        """
+        # To-Do: Is it possible to get runtime from the organization
+        # If not, convert to class method
         return '17:05'
 
     def runner(self):
+        """
+        Begin...
+        :return: None
+        """
         print('running...')
 
-        # Get a better name for this
+        # Updates the lists. Maybe there's been a new member...
         self.update_lists()
 
         humans_of_channel = self.get_humans_of_channel(
@@ -169,4 +174,4 @@ class Bot(object):
 
 
 if __name__ == '__main__':
-    print('Bot called directly')
+    print('Sneaky you. Bot called directly!')
