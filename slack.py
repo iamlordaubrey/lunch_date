@@ -48,6 +48,7 @@ def invoke_watcher():
         for job in lunchbot.jobs:
             gmt_plus_one = datetime.now() + timedelta(hours=1)
             current_time = "{:%H:%M}".format(gmt_plus_one)
+
             print(job.runtime(), current_time)
 
             if str(current_time) == job.runtime():
