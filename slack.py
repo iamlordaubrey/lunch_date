@@ -102,8 +102,9 @@ def start_server():
 
 
 if __name__ == "__main__":
-    s = Thread(target=start_server)
-    s.start()
     w = Thread(target=invoke_watcher)
     w.start()
+    s = Thread(target=start_server)
+    s.start()
+
     # app.run()
