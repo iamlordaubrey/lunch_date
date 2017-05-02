@@ -30,7 +30,7 @@ def oauth_dance():
     if code:
         print('theres code')
 
-        if lunchBot in jobs:
+        if lunchBot in lunchbot.jobs:
             # Team already registered
             print('Team already registered')
             return redirect(url_for('thanks'))
