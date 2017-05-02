@@ -9,7 +9,8 @@ load_dotenv(find_dotenv())
 # TO-DO
 # http://api.slack.com/docs/oauth-token-safety
 authed_teams = {}
-test_client = ''
+# test_client = ''
+jobs = []
 
 # This should not be hardcoded
 bot_channel = "luncheon"
@@ -142,6 +143,10 @@ class Bot(object):
                 as_user=True,
                 link_names=1
             )
+
+    def add_job(self, job):
+        jobs.append(job)
+        return jobs
 
     def runtime(self):
         # How often should this job run?

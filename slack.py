@@ -6,7 +6,7 @@ import time
 import lunchbot
 
 lunchBot = lunchbot.Bot()
-jobs = []
+# jobs = []
 # slack = lunchBot.client
 
 app = Flask(__name__)
@@ -29,15 +29,18 @@ def oauth_dance():
     print('code', code)
     if code:
         print('theres code')
-        lunchBot.auth(code)
+
         if lunchBot in jobs:
             # Team already registered
             print('Team already registered')
             return redirect(url_for('thanks'))
-        print('about to append to jobs: ', jobs)
-        jobs.append(lunchBot)
+
+        lunchBot.auth(code)
+        print('about to append to jobs: ', lunchbot.jobs)
+        lunchBot.add_job(lunchBot)
+        # print('current si')
         print('just appended this to jobs: ', lunchBot)
-        print('jobs: ', jobs)
+        print('after adding to jobs: ', lunchbot.jobs)
         return redirect(url_for('thanks'))
 
     print('in except')
@@ -53,10 +56,10 @@ def oauth_dance():
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
     # global jobs
-    print('current jobs: ', jobs)
+    print('in thanks, current jobs: ', lunchbot.jobs)
     # lunchBot.runner()
-    # w = Thread(target=invoke_watcher)
-    # w.start()
+    w = Thread(target=invoke_watcher)
+    w.start()
     # print('watcher invoked thanks route')
     return render_template("thanks.html")
 
@@ -99,7 +102,4 @@ def start_server():
 if __name__ == "__main__":
     s = Thread(target=start_server)
     s.start()
-
-    w = Thread(target=invoke_watcher)
-    w.start()
     # app.run()
