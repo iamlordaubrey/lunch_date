@@ -20,7 +20,7 @@ At the moment:
 
 ### Installation
 
-1. Go to our [Installation page](https://lunchdate-bot.herokuapp.com/) and click the **Add to Slack** button
+1. Go to the [Installation page](https://lunchdate-bot.herokuapp.com/) and click the **Add to Slack** button
 2. Sign in to your team
 3. Authorize the app
 
