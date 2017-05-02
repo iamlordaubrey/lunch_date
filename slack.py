@@ -66,13 +66,13 @@ def thanks():
 
 def invoke_watcher():
     # global jobs
-    print('invoke watcher jobs: ', jobs)
+    print('invoke watcher jobs: ', lunchbot.jobs)
     print('watcher invoked invoke_function')
     # completed_jobs = {}
     while True:
-        print('jobs inside while loop: ', jobs)
+        print('jobs inside while loop: ', lunchbot.jobs)
         # if not completed_jobs:
-        for index, job in enumerate(jobs, start=1):
+        for index, job in enumerate(lunchbot.jobs, start=1):
             print('job in watcher: ', job)
             gmt_plus_one = datetime.now() + timedelta(hours=1)
             # current_time = time.strftime("%H:%M")
@@ -83,7 +83,7 @@ def invoke_watcher():
                 job.runner()
             # completed_jobs[index] = jobs
 
-        print('jobs after for loop: ', jobs)
+        print('jobs after for loop: ', lunchbot.jobs)
         # time.sleep(3600)
         time.sleep(20)
         print('finished first sleep')
