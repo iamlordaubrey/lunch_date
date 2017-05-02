@@ -28,6 +28,7 @@ def oauth_dance():
     code = request.args.get('code')
     print('code', code)
     if code:
+        print('theres code')
         lunchBot.auth(code)
         if lunchBot in jobs:
             # Team already registered
@@ -56,7 +57,7 @@ def thanks():
     # lunchBot.runner()
     # w = Thread(target=invoke_watcher)
     # w.start()
-    print('watcher invoked thanks route')
+    # print('watcher invoked thanks route')
     return render_template("thanks.html")
 
 
