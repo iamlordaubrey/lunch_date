@@ -1,3 +1,7 @@
 *.pyc
+
 .env
+.idea
+
 __pycache__/
+migrations/
