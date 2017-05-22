@@ -51,8 +51,8 @@ def oauth_dance():
     if code:
         from models import get_team_details
         print('code', code)
-        team_already_exists = get_team_details(code)
-        print('all: ', team_already_exists)
+        team = get_team_details(code)
+        print('team: ', team)
 
         # team_id = team_details['team_id']
         # team_name = team_details['team_name']
@@ -66,14 +66,17 @@ def oauth_dance():
         # print('bot_exists: ', team_exists)
         # print('bot methods', dir(team_exists))
 
-        if team_already_exists:
-            # Team already registered
+        if not team:
+            # Team already registered (team is false)
             # ADd some form of 'already exists' message here
             print('team already in db')
             return redirect(url_for('thanks'))
 
         # new_team = Bot(team_id, team_name, access_token, bot_access_token)
         # add_to_db(new_team)
+
+        w = Thread(target=invoke_watcher, args=(team,))
+        w.start()
 
         return redirect(url_for('thanks'))
 
@@ -101,22 +104,32 @@ def thanks():
 #     return team_details
 
 
-def invoke_watcher():
+def invoke_watcher(team):
+
     while True:
+        # from models import get_all_teams
         print('watcher running')
-        from models import get_all_teams
-        teams = get_all_teams()
-        print('orgs: ', teams)
+        print('team in watcher: ', team)
 
-        if teams:
-            for team in teams:
-                gmt_plus_one = datetime.now() + timedelta(hours=1)
-                current_time = "{:%H:%M}".format(gmt_plus_one)
+        # teams = get_all_teams()
+        # print('orgs: ', teams)
 
-                print(team.runtime(), current_time)
+        # if teams:
+        #     for team in teams:
+        #         gmt_plus_one = datetime.now() + timedelta(hours=1)
+        #         current_time = "{:%H:%M}".format(gmt_plus_one)
+        #
+        #         print(team.runtime(), current_time)
+        #
+        #         if str(current_time) == team.runtime():
+        #             team.runner()
 
-                if str(current_time) == team.runtime():
-                    team.runner()
+        gmt_plus_one = datetime.now() + timedelta(hours=1)
+        current_time = "{:%H:%M}".format(gmt_plus_one)
+
+        print(team.runtime(), current_time)
+        if str(current_time) == team.runtime():
+            team.runner()
 
         # Sleep for a minute without triggering an error
         time.sleep(20)
@@ -132,6 +145,3 @@ def start_server():
 if __name__ == "__main__":
     s = Thread(target=start_server)
     s.start()
-
-    w = Thread(target=invoke_watcher)
-    w.start()

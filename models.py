@@ -32,10 +32,12 @@ def get_team_details(code):
 def verify_duplicate_team(team_details):
     team_id = team_details['team_id']
 
-    team_exists = db.session.query(Bot).filter_by(team_id=team_id).scalar()
+    # team_exists = db.session.query(Bot).filter_by(team_id=team_id).scalar()
+    old_team = db.session.query(Bot).filter_by(team_id=team_id)
+    print(type(old_team))
 
-    if team_exists:
-        return True
+    if not old_team:
+        return False
 
     team_name = team_details['team_name']
     access_token = team_details['access_token']
@@ -44,7 +46,7 @@ def verify_duplicate_team(team_details):
     new_team = Bot(team_id, team_name, access_token, bot_access_token)
     add_to_db(new_team)
 
-    return False
+    return new_team
 
 
 def get_all_teams():
@@ -206,7 +208,7 @@ class Bot(db.Model):
         """
         # To-Do: Is it possible to get runtime from the organization
         # If not, convert to class method
-        return '12:00'
+        return '14:36'
 
     def runner(self):
         """
