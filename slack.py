@@ -13,7 +13,6 @@ from threading import Thread
 from flask_sqlalchemy import SQLAlchemy
 # from slackclient import SlackClient
 
-
 load_dotenv(find_dotenv())
 #
 # oauth = {
@@ -137,11 +136,27 @@ def invoke_watcher(team):
         time.sleep(20)
 
 
+@app.before_first_request
+def start_watchers():
+    print('in watcher')
+    from models import get_all_teams
+    teams = get_all_teams()
+    print('teams: ', teams)
+
+    for team in teams:
+        print('team: ', team)
+        w = Thread(target=invoke_watcher, args=(team,))
+        w.start()
+
+
 def start_server():
     print('starting server')
     app.run()
 
 
 if __name__ == "__main__":
+    print('in main')
+    start_watchers()
+
     s = Thread(target=start_server)
     s.start()
