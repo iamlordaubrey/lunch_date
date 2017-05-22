@@ -4,10 +4,6 @@ from itertools import zip_longest
 from slack import db
 from slackclient import SlackClient
 
-# from flask_sqlalchemy import SQLAlchemy
-# from dotenv import load_dotenv, find_dotenv
-# load_dotenv(find_dotenv())
-
 
 oauth = {
     "client_id": os.environ.get("CLIENT_ID"),
@@ -89,10 +85,7 @@ class Bot(db.Model):
         # to catch case when there's no user/users_dict["members"]
         # Channel list could change. so could users list
         # Aside: Can one get the channel(s) in which the bot is in?
-        # print('self.client in update list: ', self.client)
-        # self.client = SlackClient(self.access_token)
-        # print('self.client: ', self.client)
-        # client = SlackClient(self.access_token)
+
         print('self.client in update_lists: ', client)
 
         # print('self.access_token in update list: ', self.access_token)
