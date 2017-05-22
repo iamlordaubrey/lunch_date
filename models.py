@@ -50,6 +50,7 @@ def verify_duplicate_team(team_details):
 
 
 def get_all_teams():
+    print('in get all teams')
     return db.session.query(Bot).all()
 
 
@@ -208,7 +209,7 @@ class Bot(db.Model):
         """
         # To-Do: Is it possible to get runtime from the organization
         # If not, convert to class method
-        return '14:36'
+        return '19:42'
 
     def runner(self):
         """

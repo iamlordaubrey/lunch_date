@@ -1,12 +1,12 @@
 import os
 import time
+import threading
 
 from dotenv import load_dotenv, find_dotenv
 
 from datetime import datetime, timedelta
 
 from flask import Flask, render_template, request, redirect, url_for
-from threading import Thread
 
 # from models import get_team_details
 
@@ -74,7 +74,7 @@ def oauth_dance():
         # new_team = Bot(team_id, team_name, access_token, bot_access_token)
         # add_to_db(new_team)
 
-        w = Thread(target=invoke_watcher, args=(team,))
+        w = Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
         w.start()
 
         return redirect(url_for('thanks'))
@@ -103,12 +103,29 @@ def thanks():
 #     return team_details
 
 
-def invoke_watcher(team):
+@app.route("/Vc6htAgefXlrIMuGJfoH", methods=["GET", "POST"])
+def thread_check():
+    # main_thread = threading.main_thread()
+    # for t in threading.enumerate():
+    #     if t is main_thread:
+    #         continue
+    print('threads: ', threading.enumerate())
+    print('length: ', len(threading.enumerate()))
+    if len(threading.enumerate()) < 2:
+        print('thread < 2. starting watchers')
+        start_watchers()
+        return render_template("404.html")
 
+    print('threads > 2. not doing nothing')
+    return render_template("404.html")
+
+
+def invoke_watcher(team):
+    print('in invoke watcher')
     while True:
         # from models import get_all_teams
-        print('watcher running')
-        print('team in watcher: ', team)
+        print('in while true')
+        # print('team in watcher: ', team)
 
         # teams = get_all_teams()
         # print('orgs: ', teams)
@@ -136,16 +153,15 @@ def invoke_watcher(team):
         time.sleep(20)
 
 
-@app.before_first_request
 def start_watchers():
-    print('in watcher')
+    print('in start watcher. should run once')
     from models import get_all_teams
     teams = get_all_teams()
-    print('teams: ', teams)
+    print('all teams in db: ', teams)
 
     for team in teams:
-        print('team: ', team)
-        w = Thread(target=invoke_watcher, args=(team,))
+        print('a team from db: ', team)
+        w = threading.Thread(target=invoke_watcher, args=(team,))
         w.start()
 
 
@@ -158,5 +174,6 @@ if __name__ == "__main__":
     print('in main')
     start_watchers()
 
-    s = Thread(target=start_server)
+    s = threading.Thread(target=start_server)
+    print('about to start start_server thread')
     s.start()
