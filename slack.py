@@ -141,7 +141,7 @@ def start_watchers():
 
     for team in teams:
         print('a team from db: ', team)
-        w = threading.Thread(target=invoke_watcher, args=(team,))
+        w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
         w.start()
 
 
