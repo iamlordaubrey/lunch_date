@@ -17,6 +17,8 @@ db = SQLAlchemy(app)
 
 bot_channel = "luncheon"
 
+w = threading.Thread()
+
 
 @app.route("/")
 def index():
@@ -53,7 +55,7 @@ def oauth_dance():
 
         # new_team = Bot(team_id, team_name, access_token, bot_access_token)
         # add_to_db(new_team)
-
+        global w
         w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
         w.start()
 
@@ -83,20 +85,20 @@ def thanks():
 #     return team_details
 
 
-@app.route("/Vc6htAgefXlrIMuGJfoH", methods=["GET", "POST"])
+@app.route("/Vc6htAgefXlrIMuGJfoH", methods=["GET"])
 def thread_check():
     # main_thread = threading.main_thread()
     # for t in threading.enumerate():
     #     if t is main_thread:
     #         continue
-    print('threads: ', threading.enumerate())
-    print('length: ', len(threading.enumerate()))
-    if len(threading.enumerate()) < 2:
-        print('thread < 2. starting watchers')
+    print('threads: ', threading.active_count())
+    print('length: ', threading.active_count())
+    if threading.active_count() == 1:
+        print('thread == 1. starting watchers')
         start_watchers()
         return render_template("404.html")
 
-    print('threads > 2. not doing nothing')
+    print('threads !== 1. not doing nothing')
     return render_template("404.html")
 
 
@@ -141,6 +143,7 @@ def start_watchers():
 
     for team in teams:
         print('a team from db: ', team)
+        global w
         w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
         w.start()
 
