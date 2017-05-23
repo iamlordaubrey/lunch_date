@@ -151,7 +151,7 @@ def start_server():
 
 
 if __name__ == "__main__":
-    start_watchers()
+    # start_watchers()
 
     s = threading.Thread(target=start_server)
     s.start()
