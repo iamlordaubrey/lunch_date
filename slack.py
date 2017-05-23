@@ -3,38 +3,19 @@ import time
 import threading
 
 from dotenv import load_dotenv, find_dotenv
-
 from datetime import datetime, timedelta
-
 from flask import Flask, render_template, request, redirect, url_for
-
-# from models import get_team_details
-
 from flask_sqlalchemy import SQLAlchemy
-# from slackclient import SlackClient
 
 load_dotenv(find_dotenv())
-#
-# oauth = {
-#     "client_id": os.environ.get("CLIENT_ID"),
-#     "client_secret": os.environ.get("CLIENT_SECRET"),
-#     "scope": "bot"
-# }
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-# from models import Bot
 
-# This should not be hardcoded
 bot_channel = "luncheon"
-
-#
-# def add_to_db(new_team):
-#     db.session.add(new_team)
-#     db.session.commit()
 
 
 @app.route("/")
@@ -44,7 +25,6 @@ def index():
 
 @app.route("/install")
 def oauth_dance():
-    # global jobs
 
     code = request.args.get('code')
     if code:
@@ -74,7 +54,7 @@ def oauth_dance():
         # new_team = Bot(team_id, team_name, access_token, bot_access_token)
         # add_to_db(new_team)
 
-        w = Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
+        w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
         w.start()
 
         return redirect(url_for('thanks'))
@@ -171,9 +151,7 @@ def start_server():
 
 
 if __name__ == "__main__":
-    print('in main')
     start_watchers()
 
     s = threading.Thread(target=start_server)
-    print('about to start start_server thread')
     s.start()

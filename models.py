@@ -209,7 +209,7 @@ class Bot(db.Model):
         """
         # To-Do: Is it possible to get runtime from the organization
         # If not, convert to class method
-        return '19:42'
+        return '12:00'
 
     def runner(self):
         """
