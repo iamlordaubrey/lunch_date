@@ -91,14 +91,16 @@ def thread_check():
     # for t in threading.enumerate():
     #     if t is main_thread:
     #         continue
+    print('thread name: ', threading.current_thread().name)
+
     print('threads: ', threading.active_count())
     print('length: ', threading.active_count())
-    if threading.active_count() == 1:
-        print('thread == 1. starting watchers')
+    if threading.active_count() < 3:
+        print('thread < 3. starting watchers')
         start_watchers()
         return render_template("404.html")
 
-    print('threads !== 1. not doing nothing')
+    print('threads !< 3. not doing nothing')
     return render_template("404.html")
 
 
@@ -121,6 +123,7 @@ def invoke_watcher(team):
         #
         #         if str(current_time) == team.runtime():
         #             team.runner()
+        print('thread name: ', threading.current_thread().name)
 
         gmt_plus_one = datetime.now() + timedelta(hours=1)
         current_time = "{:%H:%M}".format(gmt_plus_one)
