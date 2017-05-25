@@ -95,12 +95,12 @@ def thread_check():
 
     print('threads: ', threading.active_count())
     print('length: ', threading.active_count())
-    if threading.active_count() < 3:
-        print('thread < 3. starting watchers')
+    if threading.active_count() == 1:
+        print('thread == 1. starting watchers')
         start_watchers()
         return render_template("404.html")
 
-    print('threads !< 3. not doing nothing')
+    print('threads > 1. not doing nothing')
     return render_template("404.html")
 
 
