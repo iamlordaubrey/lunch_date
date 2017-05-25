@@ -1,6 +1,7 @@
 import os
 import time
 import threading
+import asyncio
 
 from dotenv import load_dotenv, find_dotenv
 from datetime import datetime, timedelta
@@ -55,9 +56,10 @@ def oauth_dance():
 
         # new_team = Bot(team_id, team_name, access_token, bot_access_token)
         # add_to_db(new_team)
-        global w
-        w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
-        w.start()
+        # global w
+        # w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
+        # w.start()
+        start_watchers()
 
         return redirect(url_for('thanks'))
 
@@ -104,13 +106,24 @@ def thread_check():
     return render_template("404.html")
 
 
-def invoke_watcher(team):
+def invoke_watcher(loop, team):
     print('in invoke watcher')
-    while True:
-        # from models import get_all_teams
-        print('in while true')
-        # print('team in watcher: ', team)
+    # while True:
+    # from models import get_all_teams
+    # print('in while true')
+    # print('team in watcher: ', team)
+    asyncio.run_coroutine_threadsafe(create_thread_for_team(team), loop)
+    print('threads: ', threading.active_count())
 
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        # Canceling pending tasks and stopping the loop
+        asyncio.gather(*asyncio.Task.all_tasks()).cancel()
+        # Stopping the loop
+        loop.stop()
+        # Received Ctrl+C
+        loop.close()
         # teams = get_all_teams()
         # print('orgs: ', teams)
 
@@ -123,6 +136,23 @@ def invoke_watcher(team):
         #
         #         if str(current_time) == team.runtime():
         #             team.runner()
+        # print('thread name: ', threading.current_thread().name)
+        #
+        # gmt_plus_one = datetime.now() + timedelta(hours=1)
+        # current_time = "{:%H:%M}".format(gmt_plus_one)
+        #
+        # print(team.runtime(), current_time)
+        # if str(current_time) == team.runtime():
+        #     team.runner()
+
+        # Sleep for a minute without triggering an error
+        # time.sleep(20)
+        # time.sleep(20)
+        # time.sleep(20)
+
+async def create_thread_for_team(team):
+    while True:
+        print('in while loop')
         print('thread name: ', threading.current_thread().name)
 
         gmt_plus_one = datetime.now() + timedelta(hours=1)
@@ -132,10 +162,8 @@ def invoke_watcher(team):
         if str(current_time) == team.runtime():
             team.runner()
 
-        # Sleep for a minute without triggering an error
-        time.sleep(20)
-        time.sleep(20)
-        time.sleep(20)
+        await asyncio.sleep(30)
+        await asyncio.sleep(30)
 
 
 def start_watchers():
@@ -146,14 +174,18 @@ def start_watchers():
 
     for team in teams:
         print('a team from db: ', team)
-        global w
-        w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
-        w.start()
+        # global w
+        # w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
+        # w.start()
+        worker_loop = asyncio.new_event_loop()
+
+        worker = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(worker_loop, team,))
+        worker.start()
 
 
-def start_server():
-    print('starting server')
-    app.run()
+# def start_server():
+#     print('starting server')
+#     app.run()
 
 
 if __name__ == "__main__":
@@ -161,4 +193,4 @@ if __name__ == "__main__":
 
     # s = threading.Thread(target=start_server)
     # s.start()
-    start_server()
+    app.run()
