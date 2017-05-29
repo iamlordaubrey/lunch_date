@@ -226,7 +226,7 @@ def thanks():
 #     return team_details
 
 
-@app.route("/Vc6htAgefXlrIMuGJfoH", methods=["GET"])
+# @app.route("/Vc6htAgefXlrIMuGJfoH", methods=["GET"])
 def thread_check():
     # main_thread = threading.main_thread()
     # for t in threading.enumerate():

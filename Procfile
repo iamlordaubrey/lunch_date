@@ -1,2 +1,2 @@
-celery worker -A slack.celery -B --loglevel=info
-
+worker: celery worker --app=task.slack
+web: python slack.py
