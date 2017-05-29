@@ -36,7 +36,7 @@ def verify_duplicate_team(team_details):
     old_team = db.session.query(Bot).filter_by(team_id=team_id)
     print(type(old_team))
 
-    if not old_team:
+    if old_team:
         return False
 
     team_name = team_details['team_name']

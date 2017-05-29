@@ -5,3 +5,6 @@
 
 __pycache__/
 migrations/
+
+celerybeat-schedule
+dump.rdb
