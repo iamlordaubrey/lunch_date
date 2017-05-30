@@ -36,7 +36,7 @@ celery.conf.update(app.config)
 def setup_periodic_tasks(sender, **kwargs):
     # calls test function every 10secs
     sender.add_periodic_task(
-        crontab(hour=13, minute=00, day_of_week='mon-fri'),
+        crontab(hour=5, minute=25, day_of_week='mon-fri'),
         test.s("hello there!!!")
     )
 
