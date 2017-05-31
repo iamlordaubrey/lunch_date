@@ -1,2 +1,2 @@
-worker: celery worker -B slack.celery -l INFO
+worker: celery worker -A slack.celery -B --loglevel=info
 web: gunicorn slack:app

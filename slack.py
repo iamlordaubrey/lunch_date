@@ -34,11 +34,13 @@ celery.conf.update(app.config)
 
 @celery.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
+    print("Heroku restarted")
     # calls test function every 10secs
-    sender.add_periodic_task(
-        crontab(hour=5, minute=25, day_of_week='mon-fri'),
-        test.s("hello there!!!")
-    )
+    # sender.add_periodic_task(
+    #     crontab(hour=12, minute=32, day_of_week='mon-fri'),
+    #     test.s("hello there!!!")
+    # )
+    print("Function running!")
 
 
 @celery.task
