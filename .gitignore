@@ -1,3 +1,10 @@
 *.pyc
+
 .env
+.idea
+
 __pycache__/
+migrations/
+
+celerybeat-schedule
+dump.rdb

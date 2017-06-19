@@ -1,1 +1,2 @@
-web: gunicorn slack:app --log-file=-
+worker: celery worker -A slack.celery -B --loglevel=info
+web: gunicorn slack:app
