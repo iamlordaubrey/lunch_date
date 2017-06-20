@@ -41,7 +41,12 @@ def setup_periodic_tasks(sender, **kwargs):
     #     test.s("hello there!!!")
     # )
     print("Calling thread_check function")
-    thread_check()
+
+    sender.add_periodic_task(
+        crontab(day_of_week='mon-fri'),
+        thread_check()
+    )
+
     print("Function running!")
 
 
