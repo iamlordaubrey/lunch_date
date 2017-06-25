@@ -31,10 +31,12 @@ def get_team_details(code):
 
 def verify_duplicate_team(team_details):
     team_id = team_details['team_id']
+    print('team_id: ', team_id)
 
     # team_exists = db.session.query(Bot).filter_by(team_id=team_id).scalar()
     old_team = db.session.query(Bot).filter_by(team_id=team_id)
-    print(type(old_team))
+    print('old_team:', old_team)
+    print('old_team type: ', type(old_team))
 
     if old_team:
         return False

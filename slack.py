@@ -207,7 +207,14 @@ def oauth_dance():
         # global w
         # w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
         # w.start()
-        start_watchers()
+
+        # start_watchers()
+        # start a worker for that team
+        print('new team in db: ', team)
+        worker_loop = asyncio.new_event_loop()
+
+        worker = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(worker_loop, team,))
+        worker.start()
 
         return redirect(url_for('thanks'))
 
