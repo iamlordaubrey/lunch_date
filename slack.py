@@ -181,6 +181,8 @@ def oauth_dance():
     if code:
         from models import get_team_details
         print('code', code)
+
+        # Returns False if team already present, or returns new_team
         team = get_team_details(code)
         print('team: ', team)
 
@@ -196,6 +198,7 @@ def oauth_dance():
         # print('bot_exists: ', team_exists)
         # print('bot methods', dir(team_exists))
 
+        # if False is returned (team == False), make if statement truthy
         if not team:
             # Team already registered (team is false)
             # ADd some form of 'already exists' message here

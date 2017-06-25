@@ -34,24 +34,26 @@ def verify_duplicate_team(team_details):
     print('team_id: ', team_id)
 
     # team_exists = db.session.query(Bot).filter_by(team_id=team_id).scalar()
-    old_team = db.session.query(Bot).filter_by(team_id=team_id)
-    print('old_team:', old_team)
-    print('old_team type: ', type(old_team))
+    # old_team = db.session.query(Bot).filter_by(team_id=team_id)
+    # print('old_team:', old_team)
+    # print('old_team type: ', type(old_team))
 
-    test_team = db.session.query(Bot).filter(Bot.team_id == team_id).first()
-    print('test_team: ', test_team)
+    # if team not present, old_team == None (falsy)
+    old_team = db.session.query(Bot).filter(Bot.team_id == team_id).first()
+    print('old_team: ', old_team)
 
-    if old_team:
-        return False
+    # if old_team is None, make if statement truthy
+    if not old_team:
+        team_name = team_details['team_name']
+        access_token = team_details['access_token']
+        bot_access_token = team_details['bot']['bot_access_token']
 
-    team_name = team_details['team_name']
-    access_token = team_details['access_token']
-    bot_access_token = team_details['bot']['bot_access_token']
+        new_team = Bot(team_id, team_name, access_token, bot_access_token)
+        add_to_db(new_team)
 
-    new_team = Bot(team_id, team_name, access_token, bot_access_token)
-    add_to_db(new_team)
+        return new_team
 
-    return new_team
+    return False
 
 
 def get_all_teams():
