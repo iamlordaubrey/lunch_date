@@ -32,7 +32,6 @@ celery = Celery(app.name, broker=app.config['broker_url'])
 celery.conf.update(app.config)
 
 
-@celery.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     print("Heroku restarted")
     # calls test function every 10secs
@@ -42,10 +41,11 @@ def setup_periodic_tasks(sender, **kwargs):
     # )
     print("Calling thread_check function")
 
-    sender.add_periodic_task(
-        crontab(day_of_week='mon-fri'),
-        thread_check()
-    )
+    # sender.add_periodic_task(
+    #     crontab(day_of_week='mon-fri'),
+    #     start_watchers()
+    #     # thread_check()
+    # )
 
     print("Function running!")
 
@@ -214,10 +214,7 @@ def oauth_dance():
         # start_watchers()
         # start a worker for that team
         print('new team in db: ', team)
-        worker_loop = asyncio.new_event_loop()
-
-        worker = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(worker_loop, team,))
-        worker.start()
+        spin_worker(team)
 
         return redirect(url_for('thanks'))
 
@@ -245,22 +242,22 @@ def thanks():
 #     return team_details
 
 
-def thread_check():
-    # main_thread = threading.main_thread()
-    # for t in threading.enumerate():
-    #     if t is main_thread:
-    #         continue
-    print('thread name: ', threading.current_thread().name)
-
-    print('threads: ', threading.active_count())
-    print('length: ', threading.active_count())
-    if threading.active_count() == 1:
-        print('thread == 1. starting watchers')
-        start_watchers()
-        return render_template("404.html")
-
-    print('threads > 1. not doing nothing')
-    return render_template("404.html")
+# def thread_check():
+#     # main_thread = threading.main_thread()
+#     # for t in threading.enumerate():
+#     #     if t is main_thread:
+#     #         continue
+#     print('thread name: ', threading.current_thread().name)
+#
+#     print('threads: ', threading.active_count())
+#     print('length: ', threading.active_count())
+#     if threading.active_count() == 1:
+#         print('thread == 1. starting watchers')
+#         start_watchers()
+#         return render_template("404.html")
+#
+#     print('threads > 1. not doing nothing')
+#     return render_template("404.html")
 
 
 def invoke_watcher(loop, team):
@@ -323,7 +320,8 @@ async def create_thread_for_team(team):
         await asyncio.sleep(30)
 
 
-def start_watchers():
+@celery.on_after_configure.connect
+def start_watchers(sender, **kwargs):
     print('in start watcher. should run once')
     from models import get_all_teams
     teams = get_all_teams()
@@ -334,11 +332,15 @@ def start_watchers():
         # global w
         # w = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(team,))
         # w.start()
-        worker_loop = asyncio.new_event_loop()
+        spin_worker(team)
 
-        worker = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(worker_loop, team,))
-        worker.start()
 
+def spin_worker(team):
+    print('spinning worker for team ', team)
+    worker_loop = asyncio.new_event_loop()
+
+    worker = threading.Thread(name=team.team_name + ' Thread', target=invoke_watcher, args=(worker_loop, team,))
+    worker.start()
 
 # def start_server():
 #     print('starting server')
