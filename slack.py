@@ -316,8 +316,7 @@ async def create_thread_for_team(team):
         if str(current_time) == team.runtime():
             team.runner()
 
-        await asyncio.sleep(30)
-        await asyncio.sleep(30)
+        await asyncio.sleep(60)
 
 
 @celery.on_after_configure.connect
